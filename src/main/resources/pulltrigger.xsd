@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2018 The Holodeck B2B Team, Sander Fieten
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    targetNamespace="http://holodeck-b2b.org/schemas/2018/02/pullrequest/trigger"
+    xmlns:tns="http://holodeck-b2b.org/schemas/2018/02/pullrequest/trigger"
+    elementFormDefault="qualified" version="1.0">
+    <xs:annotation>
+        <xs:documentation xml:lang="en">This schema defines the structure of the document used to trigger a Pull Request by Holodeck B2B.</xs:documentation>
+    </xs:annotation>
+    <xs:element name="PullRequestMetadata" type="tns:PullRequestMetadataType">
+        <xs:annotation>
+            <xs:documentation>Using this element the <i>Consumer</i> back-end application can configure the Pull Request that must be send by Holodeck B2B. 
+
+The meta-data MUST contain at least the reference to the P-Mode that governs the sending of the pull request. It MAY also contain MPC and criteria for selective pulling as described in section 5.1 of the ebMS 3 Part 2 (Advanced Features) Specification.
+</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType name="PullRequestMetadataType">
+        <xs:sequence>
+            <xs:element name="PModeId" type="tns:non-empty-string">
+                <xs:annotation>
+                    <xs:documentation>This element MUST contain the id of the P-Mode that governs the sending of the Pull Request. The P-Mode defines where the request should be send to, whether authentication data (e.g. a signature or user name token) must be included, error handling and message delivery.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Subchannel" type="tns:non-empty-string" minOccurs="0">
+                <xs:annotation>
+                    <xs:documentation>This element should be used to trigger a Pull Request on a sub-channel of the MPC defined in the P-Mode. It MUST contain only the sub-channel path to be added to the main MPC.
+NOTE: If the P-Mode does not explicitly define a MPC the default MPC is assumed and the specified sub-channel is appended to it.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="Criteria" minOccurs="0" type="tns:CriteriaType">
+                <xs:annotation>
+                    <xs:documentation>This element contains the criteria for a <i>selective</i> Pull Request. The possible selection criteria are described in section 5.1 of the ebMS 3 Part 2 Specification. In the current version only the <i>simple</i> criteria are supported.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CriteriaType">
+        <xs:sequence>
+            <xs:element name="RefToMessageId" minOccurs="0" type="tns:non-empty-string"/>
+            <xs:element name="ConversationId" minOccurs="0" type="tns:non-empty-string"/>
+            <xs:element minOccurs="0" name="AgreementRef" type="tns:AgreementRefType"/>
+            <xs:element minOccurs="0" name="Service" type="tns:ServiceType"/>
+            <xs:element minOccurs="0" name="Action" type="tns:non-empty-string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:simpleType name="non-empty-string">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:complexType name="AgreementRefType">
+        <xs:simpleContent>
+            <xs:extension base="tns:non-empty-string">
+                <xs:attribute name="type" type="tns:non-empty-string" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    <xs:complexType name="ServiceType">
+        <xs:simpleContent>
+            <xs:extension base="tns:non-empty-string">
+                <xs:attribute name="type" type="tns:non-empty-string" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+</xs:schema>
