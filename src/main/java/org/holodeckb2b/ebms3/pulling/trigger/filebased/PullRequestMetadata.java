@@ -16,11 +16,13 @@ import org.simpleframework.xml.core.Persister;
  * Request in Holodeck B2B. The structure of these documents is defined by XML schema 
  * <i>http://holodeck-b2b.org/schemas/2018/02/pullrequest/metdata</i>. 
  * <p>These "trigger" documents must contain at least the P-Mode that governs the processing of the Pull Request and can
- * further configure the MPC [sub-channel] and selection criteria to use for pulling.
+ * further configure the MPC [sub-channell], the selection criteria to use for pulling and since version 1.1.0 the 
+ * <code>MessageId</code> to use for the Pull Request.
  * <p>NOTE: In the current version only the "simple" selection criteria as described in section 5.1 of the ebMS V3 
  * Part 2 Specification are supported.
  *
  * @author Sander Fieten (sander at holodeck-b2b.org)
+ * @since 1.1 Support for specifying of the Pull Request's <code>eb:MessageId</code>
  */
 @Root(name = "PullRequestMetadata",strict = false)
 @Namespace(reference="http://holodeck-b2b.org/schemas/2018/02/pullrequest/metdata")
@@ -28,6 +30,9 @@ public class PullRequestMetadata {
 
 	@Element(name="PModeId")
 	private String	pmodeId;
+	
+	@Element(name="MessageId", required=false)
+	private String  messageId;
 	
 	@Element(name="Subchannel", required=false)
 	private String	subchannel;
@@ -67,6 +72,16 @@ public class PullRequestMetadata {
 	 */
 	public String getPModeId() {
 		return pmodeId;
+	}
+	
+	/**
+	 * Gets the MessageId that should be used for the Pull Request.
+	 * 
+	 * @return	The MessageId to be used for the Pull Request
+	 * @since 1.1.0
+	 */
+	public String getMessageId() {
+		return messageId;
 	}
 	
 	/**

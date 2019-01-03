@@ -35,8 +35,8 @@ manually by an operator or automatically by the back-end.
 To trigger a Pull Request the back-end application must create a _"Pull Request trigger document"_ in the
 directory specified in the _watchPath_ parameter of the watcher described above. These "trigger" documents
 are XML documents that MUST have the "xml" extension. They must contain at least the P-Mode that governs
-the processing of the Pull Request and can further configure the MPC [sub-channel] and selection criteria
-to use for pulling. Their structure is defined by XML schema
+the processing of the Pull Request and can further configure the _MessageId_ of the Pull Request, the MPC
+ [sub-channel] and selection criteria to use for pulling. Their structure is defined by XML schema
 [http://holodeck-b2b.org/schemas/2018/02/pullrequest/metdata](src/main/resources/pulltrigger.xsd).  
 **NOTE:** In the current version only the "simple" selection criteria as described in section 5.1 of the
 ebMS V3 Part 2 Specification are supported.

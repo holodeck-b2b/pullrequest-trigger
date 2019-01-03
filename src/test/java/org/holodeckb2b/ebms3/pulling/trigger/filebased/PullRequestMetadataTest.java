@@ -36,6 +36,25 @@ public class PullRequestMetadataTest {
 	}
 
 	@Test
+	public void testWithMessageId() {
+		final String xml = 
+				"<PullRequestMetadata xmlns=\"http://holodeck-b2b.org/schemas/2018/02/pullrequest/trigger\"> " + 
+						"    <PModeId>sample-receive-pmode-id</PModeId> " +
+						"    <MessageId>uuid-1@test.holodeck-b2b.org</MessageId> " +
+						"</PullRequestMetadata>";
+		try {
+			PullRequestMetadata prmd = new Persister().read(PullRequestMetadata.class, xml);
+			
+			assertEquals("sample-receive-pmode-id", prmd.getPModeId());
+			assertEquals("uuid-1@test.holodeck-b2b.org", prmd.getMessageId());
+			assertNull(prmd.getSubchannel());
+			assertNull(prmd.getSelectionCriteria());
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}		
+	}
+	
+	@Test
 	public void testWithSubchannel() {
 		final String xml = 
 				"<PullRequestMetadata xmlns=\"http://holodeck-b2b.org/schemas/2018/02/pullrequest/trigger\"> " + 
@@ -46,6 +65,27 @@ public class PullRequestMetadataTest {
 			PullRequestMetadata prmd = new Persister().read(PullRequestMetadata.class, xml);
 			
 			assertEquals("sample-receive-pmode-id", prmd.getPModeId());
+			assertNull(prmd.getMessageId());
+			assertEquals("highprio", prmd.getSubchannel());
+			assertNull(prmd.getSelectionCriteria());
+		} catch (Exception e) {
+			fail(e.getMessage());
+		}		
+	}
+	
+	@Test
+	public void testWithMsgIdAndSubchannel() {
+		final String xml = 
+				"<PullRequestMetadata xmlns=\"http://holodeck-b2b.org/schemas/2018/02/pullrequest/trigger\"> " + 
+						"    <PModeId>sample-receive-pmode-id</PModeId> " +
+						"    <MessageId>uuid-1@test.holodeck-b2b.org</MessageId> " +
+						"	 <Subchannel>highprio</Subchannel> " +
+						"</PullRequestMetadata>";
+		try {
+			PullRequestMetadata prmd = new Persister().read(PullRequestMetadata.class, xml);
+			
+			assertEquals("sample-receive-pmode-id", prmd.getPModeId());
+			assertEquals("uuid-1@test.holodeck-b2b.org", prmd.getMessageId());
 			assertEquals("highprio", prmd.getSubchannel());
 			assertNull(prmd.getSelectionCriteria());
 		} catch (Exception e) {
@@ -66,6 +106,7 @@ public class PullRequestMetadataTest {
 			PullRequestMetadata prmd = new Persister().read(PullRequestMetadata.class, xml);
 			
 			assertEquals("sample-receive-pmode-id", prmd.getPModeId());
+			assertNull(prmd.getMessageId());
 			assertNull(prmd.getSubchannel());
 			assertNotNull(prmd.getSelectionCriteria());
 			assertEquals("sample-msg-id@test.example.com", prmd.getSelectionCriteria().getReferencedMessageId());

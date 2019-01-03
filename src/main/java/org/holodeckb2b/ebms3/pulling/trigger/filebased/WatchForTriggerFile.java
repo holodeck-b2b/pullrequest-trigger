@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2014 The Holodeck B2B Team, Sander Fieten
+x * Copyright (C) 2014 The Holodeck B2B Team, Sander Fieten
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,6 +52,7 @@ import org.holodeckb2b.pmode.PModeUtils;
  * with extension <b>err</b>.
  *
  * @author Sander Fieten (sander at holodeck-b2b.org)
+ * @since 1.1.0 Support for setting of the Pull Request's <code>eb:MessageId</code>
  */
 public class WatchForTriggerFile extends AbstractWorkerTask {
     /**
@@ -174,7 +175,9 @@ public class WatchForTriggerFile extends AbstractWorkerTask {
 			final ILeg leg = pmode.getLeg(Label.REQUEST);
 			final IUserMessageFlow umFlow = leg != null ? leg.getUserMessageFlow() : null;
 			final IBusinessInfo businessInfo = umFlow != null ? umFlow.getBusinessInfo() : null;
-			pmodeMPC = !Utils.isNullOrEmpty(businessInfo.getMpc()) ? businessInfo.getMpc() : EbMSConstants.DEFAULT_MPC;			
+			pmodeMPC = businessInfo != null ? businessInfo.getMpc() : null;
+			if (Utils.isNullOrEmpty(pmodeMPC))
+				pmodeMPC = EbMSConstants.DEFAULT_MPC;			
     	}
 		// Append sub-channel if specified
 		StringBuilder pullMPC = new StringBuilder(pmodeMPC);
@@ -186,6 +189,8 @@ public class WatchForTriggerFile extends AbstractWorkerTask {
 		}
 		// Create the Pull Request
 		PullRequest pullRequest = new PullRequest(pmode.getId(), pullMPC.toString());
+    	// Set the MessageId if specified
+		pullRequest.setMessageId(prmd.getMessageId());
 		// Extend with selection criteria if specified
 		final Criteria criteria = prmd.getSelectionCriteria();
     	if (criteria != null) {

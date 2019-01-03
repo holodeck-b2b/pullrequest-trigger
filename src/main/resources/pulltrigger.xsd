@@ -20,9 +20,10 @@
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
     targetNamespace="http://holodeck-b2b.org/schemas/2018/02/pullrequest/trigger"
     xmlns:tns="http://holodeck-b2b.org/schemas/2018/02/pullrequest/trigger"
-    elementFormDefault="qualified" version="1.0">
+    elementFormDefault="qualified" version="1.1.0">
     <xs:annotation>
         <xs:documentation xml:lang="en">This schema defines the structure of the document used to trigger a Pull Request by Holodeck B2B.</xs:documentation>
+        <xs:documentation>In version 1.1.0 the MessageId element was added to allow the back-end to control the MessageId used for the PullRequest so it can relate possible [EmptyMPC] Errors to specific triggers.</xs:documentation>
     </xs:annotation>
     <xs:element name="PullRequestMetadata" type="tns:PullRequestMetadataType">
         <xs:annotation>
@@ -37,6 +38,12 @@ The meta-data MUST contain at least the reference to the P-Mode that governs the
             <xs:element name="PModeId" type="tns:non-empty-string">
                 <xs:annotation>
                     <xs:documentation>This element MUST contain the id of the P-Mode that governs the sending of the Pull Request. The P-Mode defines where the request should be send to, whether authentication data (e.g. a signature or user name token) must be included, error handling and message delivery.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" name="MessageId" type="tns:non-empty-string">
+                <xs:annotation>
+                    <xs:documentation>This element can be used to set the <code>eb:MessageId</code> of the Pull Request. If provided the value SHOULD be a <i>message-id</i> as defined in <a href="https://tools.ietf.org/html/rfc5322#section-3.6.4">RFC5322</a>, e.g. "uuid@some.where". 
+</xs:documentation>
                 </xs:annotation>
             </xs:element>
             <xs:element name="Subchannel" type="tns:non-empty-string" minOccurs="0">
