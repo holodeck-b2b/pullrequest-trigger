@@ -1,7 +1,7 @@
 # Holodeck B2B Pull Request trigger extension
 This extension allows the _Consumer_ application to control when _Pull Request_s are send by Holodeck B2B
-instead of the default fixed intervals. It also allows to specify the _criteria_ of a "selective" Pull Request
-as specified in [section 5.1 of ebMS V3 part 2 (Advanced Features)](http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/part2/201004/cs01/ebms-v3.0-part2-cs01.html#__RefHeading__435723_822242408).
+instead of the default fixed intervals. It also allows to specify the _simple selection criteria_ of a "selective" 
+Pull Request as specified in [section 5.1 of ebMS V3 part 2 (Advanced Features)](http://docs.oasis-open.org/ebxml-msg/ebms/v3.0/part2/201004/cs01/ebms-v3.0-part2-cs01.html#__RefHeading__435723_822242408).
 
 Currently the trigger mechanism is file based; the back-end application writes a XML document to a specific
 directory where it is read by the extension and a corresponding Pull Request is triggered.  
@@ -37,7 +37,7 @@ directory specified in the _watchPath_ parameter of the watcher described above.
 are XML documents that MUST have the "xml" extension. They must contain at least the P-Mode that governs
 the processing of the Pull Request and can further configure the _MessageId_ of the Pull Request, the MPC
  [sub-channel] and selection criteria to use for pulling. Their structure is defined by XML schema
-[http://holodeck-b2b.org/schemas/2018/02/pullrequest/metdata](src/main/resources/pulltrigger.xsd).  
+[http://holodeck-b2b.org/schemas/2018/02/pullrequest/trigger](src/main/resources/pulltrigger.xsd).  
 **NOTE:** In the current version only the "simple" selection criteria as described in section 5.1 of the
 ebMS V3 Part 2 Specification are supported.
 
