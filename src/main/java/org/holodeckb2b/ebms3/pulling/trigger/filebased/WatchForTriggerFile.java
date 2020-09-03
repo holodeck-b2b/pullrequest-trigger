@@ -30,6 +30,7 @@ import org.holodeckb2b.common.messagemodel.PullRequest;
 import org.holodeckb2b.common.messagemodel.SelectivePullRequest;
 import org.holodeckb2b.common.util.Utils;
 import org.holodeckb2b.common.workerpool.AbstractWorkerTask;
+import org.holodeckb2b.core.pmode.PModeUtils;
 import org.holodeckb2b.interfaces.core.HolodeckB2BCoreInterface;
 import org.holodeckb2b.interfaces.general.EbMSConstants;
 import org.holodeckb2b.interfaces.messagemodel.IPullRequest;
@@ -41,7 +42,6 @@ import org.holodeckb2b.interfaces.pmode.IPullRequestFlow;
 import org.holodeckb2b.interfaces.pmode.IUserMessageFlow;
 import org.holodeckb2b.interfaces.submit.MessageSubmitException;
 import org.holodeckb2b.interfaces.workerpool.TaskConfigurationException;
-import org.holodeckb2b.pmode.PModeUtils;
 
 /**
  * This worker reads all <i>"Pull Request trigger documents"</i> from the specified directory and then submits the 
@@ -75,7 +75,8 @@ public class WatchForTriggerFile extends AbstractWorkerTask {
             log.error("Unable to configure task: Missing required parameter \"watchPath\"");
             throw new TaskConfigurationException("Missing required parameter \"watchPath\"");
         } else if (!Paths.get(pathParameter).isAbsolute())
-            watchPath = Paths.get(HolodeckB2BCoreInterface.getConfiguration().getHolodeckB2BHome(), pathParameter).toString();
+            watchPath = HolodeckB2BCoreInterface.getConfiguration().getHolodeckB2BHome()
+            																		.resolve(pathParameter).toString();
         else
             watchPath = pathParameter;
 

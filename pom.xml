@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.holodeckb2b.extensions</groupId>
 	<artifactId>pullrequest-trigger</artifactId>
-	<version>1.0.0</version>
+	<version>1.1.0</version>
 	<packaging>jar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -52,14 +52,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.holodeckb2b</groupId>
-			<artifactId>holodeckb2b-interfaces</artifactId>
-			<version>4.1.0</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.holodeckb2b</groupId>
 			<artifactId>holodeckb2b-core</artifactId>
-			<version>4.1.0</version>
+			<version>5.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
