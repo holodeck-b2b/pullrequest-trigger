@@ -5,7 +5,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## 2.0.0
 ###### 2023-03-01
 ### Changed
-* Compatibility with Holodeck B2B 5.1.x
+* Compatibility with Holodeck B2B 5.1.x and up
 
 ## 1.1.0
 ###### 2020-09-03
