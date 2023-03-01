@@ -12,7 +12,7 @@ Issue tracker https://github.com/holodeck-b2b/pullrequest-trigger/issues
 
 ## Installation
 ### Prerequisites
-This extension can be used with Holodeck B2B version 5.0.0 and later.
+This extension can be used with Holodeck B2B version 5.1.0 and later.
 
 ### Configuration
 To enable the trigger mechanism a _worker_ that will watch for _trigger documents_ has to be added to the

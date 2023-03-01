@@ -28,8 +28,9 @@ import java.util.Map;
 
 import org.holodeckb2b.common.messagemodel.PullRequest;
 import org.holodeckb2b.common.messagemodel.SelectivePullRequest;
-import org.holodeckb2b.common.util.Utils;
-import org.holodeckb2b.common.workerpool.AbstractWorkerTask;
+import org.holodeckb2b.common.workers.AbstractWorkerTask;
+import org.holodeckb2b.commons.util.FileUtils;
+import org.holodeckb2b.commons.util.Utils;
 import org.holodeckb2b.core.pmode.PModeUtils;
 import org.holodeckb2b.interfaces.core.HolodeckB2BCoreInterface;
 import org.holodeckb2b.interfaces.general.EbMSConstants;
@@ -126,7 +127,7 @@ public class WatchForTriggerFile extends AbstractWorkerTask {
 	                HolodeckB2BCoreInterface.getMessageSubmitter().submitMessage(pullRequest);
 	                log.info("Pull Request based on " + f.getName() + " succesfully submitted to Holodeck B2B");
 	                // Change extension to reflect success
-	                Files.move(Paths.get(tFileName), Utils.createFileWithUniqueName(baseFileName + ".triggered")
+	                Files.move(Paths.get(tFileName), FileUtils.createFileWithUniqueName(baseFileName + ".triggered")
 	                           , StandardCopyOption.REPLACE_EXISTING);
 	            }
 	        } catch (final Exception e) {
@@ -135,7 +136,7 @@ public class WatchForTriggerFile extends AbstractWorkerTask {
 	                        + ". Details: " + e.getMessage());
 	            // Change extension to reflect error and write error information
 	            try {
-	                final Path rejectFilePath = Utils.createFileWithUniqueName(baseFileName + ".rejected");
+	                final Path rejectFilePath = FileUtils.createFileWithUniqueName(baseFileName + ".rejected");
 	                Files.move(Paths.get(tFileName), rejectFilePath, StandardCopyOption.REPLACE_EXISTING);
 	                writeErrorFile(rejectFilePath, e);
 	            } catch (IOException ex) {
